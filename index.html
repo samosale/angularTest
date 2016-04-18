@@ -1,78 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <title>Example - example-$route-service-production</title>
-    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
-    <script src="script.js"></script>
-    <script type="text/javascript">
+<head>
+  <meta charset="UTF-8" />
+  <title>Example - example-$route-service-production</title>
+  <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
+  <script src="script.js"></script>
+  <script type="text/javascript">
     angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
   </script>
-  
-  
-  
-  <style>
-  *{
-    
-    cursor:pointer;
-    
-  }
-  body{
-  	overflow:hidden;
-  }
-  a{
-   display:inline-block; 
-   text-decoration: none !important;
-height:100%;
 
-  }
+
+
+  <style>
+    * {
+      cursor: pointer;
+    }
     
-    .sto{
-      font-size:19px;
-      border:1px solid rgba(0,0,0, 0);
-      cursor:pointer;
+    body {
+      overflow: hidden;
+    }
+    
+    a {
+      display: inline-block;
+      text-decoration: none !important;
+      height: 100%;
+    }
+    
+    .sto {
+      font-size: 19px;
+      border: 1px solid rgba(0, 0, 0, 0);
+      cursor: pointer;
       transition: all .1s ease;
     }
-    .sto:hover{
-      
-      
-      background:rgba(34,54,55, 1);
-      border:1px solid rgba(0,0,0, 1);
+    
+    .sto:hover {
+      background: rgba(34, 54, 55, 1);
+      border: 1px solid rgba(0, 0, 0, 1);
     }
     
-    .border{
-      
-      height:90vh;
-      border:1px solid black;
-      margin-bottom:10px;
+    .border {
+      height: 90vh;
+      border: 1px solid black;
+      margin-bottom: 10px;
       border-left: none;
     }
-  .displayNone{
-    opacity:0;
-    display:none;
-  }
-    .display{
-     
-      display:block;
-      
-       opacity:1;
-      transition:.8s ease;
+    
+    .displayNone {
+      opacity: 0;
+      display: none;
+    }
+    
+    .display {
+      display: block;
+      opacity: 1;
+      transition: .8s ease;
     }
   </style>
-  </head>
+</head>
 
 
-  <body ng-app="myApp">
-    <div ng-controller="MainController">
-   <div ng-view=""></div>
+<body ng-app="myApp">
+  <div ng-controller="MainController">
+    <div ng-view=""></div>
 
-    </div>
+  </div>
 
 
 
-  </body>
+</body>
 
 </html>
