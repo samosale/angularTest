@@ -2,7 +2,14 @@
 
   'use strict';
   angular.module('myApp', ['ngRoute'])
+  
+  
+  
+  
     .factory('myService', function($rootScope) {
+      
+
+
 
 
       var array = (localStorage.getItem('AngularTest12345')) ? JSON.parse(localStorage.getItem('AngularTest12345')) : [{
@@ -23,7 +30,7 @@
         kanali: ["RTS 1", "FOX", "RTS 7", "PINK"]
       }];
       var chanelList = [];
-
+var rootScopeBool = "";
       var currentClickedElement = {
         name: array[0].name
       }
@@ -43,8 +50,6 @@
       };
 
 
-
-
       var removeCategory = function(id) {
 
 
@@ -58,8 +63,6 @@
           }
 
         }
-
-
 
 
         var dataToStore = JSON.stringify(array);
@@ -184,8 +187,6 @@
 
 
 
-
-
       var updateKanal = function(category, chanel, updatedChanel, checkBoxes) {
 
 
@@ -225,6 +226,19 @@
 
 
       }
+      
+      
+      var rootScopeBoolSet = function(tr){
+        
+         rootScopeBool = tr;
+        
+      }
+      
+      var rootScopeBoolGet = function(tr){
+        
+        return rootScopeBool;
+        
+      }
 
       return {
 
@@ -237,7 +251,9 @@
         setChanelList: setChanelList,
         editCategory: editCategory,
         deleteChanelFromCategory: deleteChanelFromCategory,
-        updateKanal: updateKanal
+        updateKanal: updateKanal,
+        rootScopeBoolSet: rootScopeBoolSet,
+        rootScopeBoolGet: rootScopeBoolGet
 
 
 
@@ -256,6 +272,7 @@
       $scope.category = {};
       $scope.category.edit = false;
       $scope.category.editChanel = false;
+      $scope.category.rootRouter = true;
       $scope.category.name = myService.getCurrentClickedElement;
       $scope.category.clickedChanel = "";
       $scope.category.cachedChanel = "";
@@ -279,6 +296,19 @@
 
 
       }
+      
+      
+      
+      
+      
+
+
+
+
+
+
+
+
 
       $scope.clickCategory = function(ev) {
 
@@ -315,20 +345,10 @@
 
         })
 
+ }
 
 
-
-      }
-
-
-      $scope.clickedChanel = function(param) {
-        $scope.category.cachedChanel = param;
-        $scope.category.clickedChanel = param;
-        $scope.category.editChanel = true;
-
-      }
-
-
+      
 
       $scope.sacuvaj = function(id) {
 
@@ -358,14 +378,19 @@
         myService.setCurrentClickedElement(kanal);
 
         myService.setChanelList($scope.category.id, $scope.category.current);
+       $scope.category.editChanel = false;
         $scope.category.edit = true;
 
 
       }
+
+      
+
+
       $scope.otkaziEditKanala = function() {
         $scope.category.edit = false;
         $scope.category.editChanel = false;
-
+$scope.category.rootRouter =true;
         $scope.$location.url('/');
 
       }
@@ -401,26 +426,40 @@
         }, this);
 
 
+
+
         $scope.category.name.name = (updateList[0].name) ? updateList[0].name : "None";
         $scope.$location.url('/');
 
       }
+      
+
 
       $scope.deleteChanelFromCategory = function(param) {
+      	
+      	
+      	myService.rootScopeBoolSet("ttt")
+      	
+        $scope.category.edit = false;
+              
+      $scope.category.rootRouter = true;
 
+      $scope.category.editChanel = false;
 
         myService.deleteChanelFromCategory(param, $scope.category.name);
 
-        $scope.category.edit = false;
-
         //update and re-render
 
+       
 
-        $scope.chanelList = myService.getChanelList();
-
-
-
-
+      
+      
+   
+    
+    
+    
+      
+       
       }
 
       $scope.sacuvajKanal = function(parametar) {
@@ -452,10 +491,11 @@
 
         myService.updateKanal(clicked, cached, clickedKanal, checkBoxes);
 
+   $scope.category.editChanel = false;
+        $scope.category.rootRouter = true;
+	      $scope.category.edit = false;
 
-        $scope.category.editChanel = false;
-
-
+     
         $scope.$location.url('/');
 
       }
@@ -474,6 +514,45 @@
       }
 
 
+      $scope.odustani = function() {
+      
+      	$scope.category.editChanel = false
+      	 
+      	 $scope.category.rootRouter = true
+      	  $scope.category.edit = false
+      }
+      $scope.editKanala = function(){
+ 
+
+       $scope.category.editChanel = true;
+
+       $scope.category.edit = false;
+       $scope.category.rootRouter = false;
+
+
+      }
+
+
+
+$scope.clickedChanel = function(param) {
+        
+        
+        
+        if(myService.rootScopeBoolGet()){
+          $scope.category.cachedChanel = param;
+        $scope.category.clickedChanel = param;
+return;
+          
+        }else{
+        $scope.category.cachedChanel = param;
+        $scope.category.clickedChanel = param;
+        $scope.category.editChanel = true;
+
+       $scope.category.edit = false;
+       $scope.category.rootRouter = false;
+}
+      }
+ 
       $scope.checkedAuto = function(d) {
         var chann = $scope.category.cachedChanel;
         var arr = myService.getCategories;
@@ -496,7 +575,16 @@
 
         var tyy = vreca.indexOf(d);
 
-        return tyy !== -1;
+        if (tyy !== -1) {
+          
+          console.log(d);
+          return d;
+          
+        }else{
+          return null;
+        }
+
+
 
       }
 
