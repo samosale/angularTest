@@ -1,0 +1,29 @@
+ 
+ <div class="col-xs-12" >
+
+
+<h4>Novi Kanal</h4>
+<hr>
+
+<form>
+
+  <input ng-model="category.newKanal" required/>
+
+
+
+
+   <div class=" col-xs-12" ng-repeat="v in categories">
+        
+     <div class="checkbox">
+  <label><input ng-model="category.checkboxes[v.name]" type="checkbox" value="{{v.name}}" ng-change="stateChanged()" name="dfvrg" required >{{v.name}}</label>
+</div>
+       
+      </div>
+      
+      <button class="btn btn-success"  name="cancel" type="submit" ng-click="sacuvajKanal(category.newKanal)" >Sacuvaj</button>
+      <button class="btn btn-danger"  ng-click="redirect()">Odustani</button>
+
+
+      </form>
+</div>
+      
