@@ -2,595 +2,788 @@
 
   'use strict';
   angular.module('myApp', ['ngRoute'])
+
+
+
+
+  .factory('myService', function($rootScope) {
+
+
+
+
+
+    var array =  (localStorage.getItem('AngularTest12345')) ? JSON.parse(localStorage.getItem('AngularTest12345')) : [{
+      id: 565675773,
+      name: "Edukativni",
+      kanali: ["RTS 1", "FOX", "RTS 2", "PINK"]
+    }, {
+      id: 56575656476,
+      name: "Zabavni",
+      kanali: ["RTS 1", "FOX", "RTS 3", "B92"]
+    }, {
+      id: 2230549543,
+      name: "Kulturni",
+      kanali: ["RTS 1", "FOX3", "NOVA 9", "ART"]
+    }, {
+      id: 34546954054,
+      name: "Sportski",
+      kanali: ["SPORTTV", "FOX", "ARENA", "SPORTNEWS"]
+    }];
+    var chanelList = [];
+   
+    var currentClickedElement = {
+      name: array[0].name
+    }
+    var currentClickedChannel = "";
+
+
+
+var e = {} ;
+var t = [array[0].id];
+
+var funcID = function(id){
+  
+  t.push(id)
+  
+}
+
+
+var getId = function(){
   
   
+  return t[t.length-1];
+}
+
+
+var id = array[0].id;
+
+
+    var addCategory = function(item) {
+      var obj = {};
+      obj.name = item;
+      obj.kanali = [];
+      obj.id = Math.random();
+
+      array.push(obj);
+
+
+    };
+
+
+    var removeCategory = function(id) {
+
+
+      for (var i = 0; i < array.length; i++) {
+
+
+        if (array[i].id === id) {
+
+          array.splice(i, 1);
+
+        }
+
+      }
+
+
+      var dataToStore = JSON.stringify(array);
+
+      localStorage.setItem('AngularTest12345', dataToStore);
+
+    };
+
+
+    var setClicked = function(clicked) {
+
+      currentClickedElement.name = clicked;
+
+
+
+
+    }
+
+
+    var getObjectItem = function(obj) {
+
+
+      return currentClickedElement;
+
+    }
+
+    var getChanelList = function() {
+
+      return chanelList;
+
+
+
+    }
+    
+    
+    
+    /***************/
+    
+
+
+    var setChanelList = function(a, b, d) {
+      
+      
+      var  clickedCurrent = this.getCurrentClickedElement.name;
+
+
+      console.log(this.getCurrentClickedElement.name)
+console.log("this.getCurrentClickedElement.name")
+
+
+
+
+if(d === 3){
+
+  clickedCurrent = this.getCachedCurrentElement().name;
+clickedCurrent = this.getCurrentClickedElement.name;
+
+
+
+
+
+
+      var curentElementList = this.getCategories.filter(function(val, ind) {
+
+        return val.id === this.getID();
+
+      }, this);
+
+
+
+
   
-  
-    .factory('myService', function($rootScope) {
+}
+
+
+
+
+
+ console.log(clickedCurrent)
+console.log("this.kAAAAAAAAA")
+
+
+
+
+      var curentElementList = this.getCategories.filter(function(val, ind) {
+
+        return val.id === this.getID();
+     //   return val.name === clickedCurrent;
+
+      }, this);
+
+console.log("curentElementList")
+console.log(curentElementList)
+
+
+
+
+      var categories = this.getCategories;
+
+
+      var name = this.getCurrentClickedElement;
       
 
+      chanelList.length = 0;
+
+
+      curentElementList[0].kanali.forEach(function(val, index) {
+        
+        
+
+        chanelList.push(val);
+
+
+      }, this);
 
 
 
-      var array = (localStorage.getItem('AngularTest12345')) ? JSON.parse(localStorage.getItem('AngularTest12345')) : [{
-        id: 565675773,
-        name: "Edukativni",
-        kanali: ["RTS 1", "FOX", "RTS 2", "PINK"]
-      }, {
-        id: 56575656476,
-        name: "Zabavni",
-        kanali: ["RTS 1", "FOX", "RTS 3", "B92"]
-      }, {
-        id: 2230549543,
-        name: "Kulturni",
-        kanali: ["RTS 1", "FOX3", "RTS 9", "PINK"]
-      }, {
-        id: 34546954054,
-        name: "Sportski",
-        kanali: ["RTS 1", "FOX", "RTS 7", "PINK"]
-      }];
-      var chanelList = [];
-var rootScopeBool = "";
-      var currentClickedElement = {
-        name: array[0].name
+      var dataToStore = JSON.stringify(array);
+
+      localStorage.setItem('AngularTest12345', dataToStore);
+
+
+
+    }
+
+
+    var editCategory = function(id, name) {
+
+
+
+console.log("efeferf")
+console.log(id)
+console.log("efeferf")
+
+
+
+
+
+      for (var i = 0; i < array.length; i++) {
+
+console.log(array[i].name === id)
+        if (array[i].id === this.getID()) {
+//this.getCurrentClickedElement.name
+//this.getCachedCurrentElement().name
+          array[i].name = this.getCachedCurrentElement().name;
+
+        }
+
       }
+      
+      
+      
+      
+
+this.setChanelList(1,23,3);
+
+    }
 
 
 
-
-      var addCategory = function(item) {
-        var obj = {};
-        obj.name = item;
-        obj.kanali = [];
-        obj.id = Math.random();
-
-        array.push(obj);
+    var deleteChanelFromCategory = function(chanel, category) {
 
 
-      };
+      for (var t = 0; t < array.length; t++) {
 
+        if (array[t].name === category.name) {
 
-      var removeCategory = function(id) {
+          var indices = array[t].kanali.indexOf(chanel);
 
-
-        for (var i = 0; i < array.length; i++) {
-
-
-          if (array[i].id === id) {
-
-            array.splice(i, 1);
-
-          }
+          array[t].kanali.splice(indices, 1);
 
         }
 
 
-        var dataToStore = JSON.stringify(array);
-
-        localStorage.setItem('AngularTest12345', dataToStore);
-
-      };
-
-
-      var setClicked = function(clicked) {
-
-        currentClickedElement.name = clicked;
-
-
-
-
       }
 
+      // update
+      this.setChanelList();
 
-      var getObjectItem = function(obj) {
 
 
-        return currentClickedElement;
+    }
 
-      }
 
-      var getChanelList = function() {
 
-        return chanelList;
+    var updateKanal = function(category, chanel, updatedChanel, checkBoxes) {
 
 
 
-      }
+      //if user uncheck
+      var cachedCategoriesOfChannel = this.categoriesOfChannel(chanel);
 
-      var setChanelList = function(a, b) {
 
+      console.log("cachedCategoriesOfChannel")
+      console.log(cachedCategoriesOfChannel)
+      console.log("cachedCategoriesOfChannel")
+      console.log(checkBoxes)
 
+      for (var t = 0; t < array.length; t++) {
 
 
-        var curentElementList = this.getCategories.filter(function(val, ind) {
+        for (var g in checkBoxes) {
 
-          return val.name === this.getCurrentClickedElement.name;
 
-        }, this);
+          if (array[t].name === g && checkBoxes[g]) {
 
 
+            var find = array[t].kanali.indexOf(chanel);
 
 
+            if (find !== -1) {
 
-        var categories = this.getCategories;
+              array[t].kanali[find] = updatedChanel;
 
+            } else {
 
-        var name = this.getCurrentClickedElement;
-
-        chanelList.length = 0;
-
-
-        curentElementList[0].kanali.forEach(function(val, index) {
-
-          chanelList.push(val);
-
-
-        }, this);
-
-
-
-        var dataToStore = JSON.stringify(array);
-
-        localStorage.setItem('AngularTest12345', dataToStore);
-
-
-
-      }
-
-
-      var editCategory = function(id, name) {
-
-
-
-
-        for (var i = 0; i < array.length; i++) {
-
-
-          if (array[i].id === id) {
-
-            array[i].name = name.name;
-
-          }
-
-        }
-
-        this.setChanelList();
-
-      }
-
-
-
-      var deleteChanelFromCategory = function(chanel, category) {
-
-
-        for (var t = 0; t < array.length; t++) {
-
-          if (array[t].name === category.name) {
-
-            var indices = array[t].kanali.indexOf(chanel);
-
-            array[t].kanali.splice(indices, 1);
-
-
-
-          }
-
-
-        }
-
-        // update
-        this.setChanelList();
-
-
-
-      }
-
-
-
-      var updateKanal = function(category, chanel, updatedChanel, checkBoxes) {
-
-
-        console.log(checkBoxes)
-
-        for (var t = 0; t < array.length; t++) {
-
-
-          for (var g in checkBoxes) {
-
-
-            if (array[t].name === g && checkBoxes[g]) {
-
-
-              var find = array[t].kanali.indexOf(chanel);
-
-
-              if (find !== -1) {
-
-                array[t].kanali[find] = updatedChanel;
-
-              } else {
-
-                array[t].kanali.push(updatedChanel)
-              }
-
-
-
+              array[t].kanali.push(updatedChanel)
             }
 
-          }
 
+
+          } else if (array[t].name === g && !checkBoxes[g]) {
+
+
+
+            var filtered = Object.keys(checkBoxes).filter(function(value) {
+
+
+              return !checkBoxes[value];
+
+
+            }).forEach(function(evert) {
+
+
+
+              var indd = array[t].kanali.indexOf(evert);
+
+              array[t].kanali.splice(indd, 1)
+
+
+            })
+
+
+
+
+          }
 
         }
 
-        this.setChanelList();
-
 
       }
+
+      this.setChanelList();
+
+
+    }
+
+
+
+    var setCurrentClickedChannel = function(channel) {
+
+
+      currentClickedChannel = channel;
+    }
+
+    var getCurrentClickedChannel = function() {
+
+      return currentClickedChannel;
+
+
+
+    }
+
+    var channelInCategories = function(channel, id) {
+
+
+      var arr = [];
+
+      array.forEach(function(val) {
+
+        var indexOf = val.kanali.indexOf(channel)
+
+        if (indexOf !== -1) {
+
+          arr.push(val.name)
+        }
+      })
+
+
+      return arr;
+
+    }
+    
+    
+    var setID = function(id){
+      
+     funcID(id)
+    }
+    
+    var getID = function(){
+    
+      return getId()
+      
+    }
+    var cachedElement = {} ;
+    
+    var setCachedCurrentElement = function(e){
       
       
-      var rootScopeBoolSet = function(tr){
-        
-         rootScopeBool = tr;
-        
+      cachedElement.name = e.name;
+    }
+    
+    var getCachedCurrentElement = function(){
+      
+      
+      return cachedElement;
+    }
+    
+    return {
+
+      getCategories: array,
+      addCategory: addCategory,
+      removeCategory: removeCategory,
+      setCurrentClickedElement: setClicked,
+      getCurrentClickedElement: currentClickedElement,
+      getChanelList: getChanelList,
+      setChanelList: setChanelList,
+      editCategory: editCategory,
+      deleteChanelFromCategory: deleteChanelFromCategory,
+      updateKanal: updateKanal,
+      setCurrentClickedChannel: setCurrentClickedChannel,
+      getCurrentClickedChannel: getCurrentClickedChannel,
+      categoriesOfChannel: channelInCategories,
+      setID:setID,
+      getID:getID,
+      setCachedCurrentElement:setCachedCurrentElement,
+      getCachedCurrentElement:getCachedCurrentElement
+
+
+    };
+
+  })
+
+
+
+
+
+  .controller('MainController', function($scope, $route, $routeParams, $location, myService) {
+
+
+
+
+    $scope.params = $routeParams;
+    $scope.$route = $route;
+    $scope.$location = $location;
+    $scope.$routeParams = $routeParams;
+    $scope.chanelList = myService.getChanelList();
+    $scope.currentParamCategory = ($scope.$routeParams.name) ? $scope.$routeParams.name : null;
+    $scope.category = {};
+    
+    $scope.category.name = myService.getCachedCurrentElement();
+    $scope.category.clickedChanel = myService.getCurrentClickedChannel();
+    $scope.category.cachedChanel = "";
+    $scope.categories = myService.getCategories;
+    $scope.category.id = myService.getID()
+
+    var curr = myService.categoriesOfChannel($scope.category.clickedChanel) || [];
+
+    $scope.setCheckBoxVal = function() {
+
+      var objt = {};
+      var currToObj = curr.forEach(function(val) {
+
+        objt[val] = true;
+
+      });
+
+
+      $scope.category.checkboxes = objt;
+
+      return objt;
+
+    }
+  myService.setChanelList();
+    $scope.chanelList = myService.getChanelList();
+
+
+
+
+
+
+    $scope.novaKategorija = function(value) {
+
+      if (!value) {
+
+        return;
       }
-      
-      var rootScopeBoolGet = function(tr){
-        
-        return rootScopeBool;
-        
-      }
 
-      return {
-
-        getCategories: array,
-        addCategory: addCategory,
-        removeCategory: removeCategory,
-        setCurrentClickedElement: setClicked,
-        getCurrentClickedElement: currentClickedElement,
-        getChanelList: getChanelList,
-        setChanelList: setChanelList,
-        editCategory: editCategory,
-        deleteChanelFromCategory: deleteChanelFromCategory,
-        updateKanal: updateKanal,
-        rootScopeBoolSet: rootScopeBoolSet,
-        rootScopeBoolGet: rootScopeBoolGet
+      myService.addCategory(value);
+      $scope.$location.url('/');
 
 
 
-      };
 
-    })
-    .controller('MainController', function($scope, $route, $routeParams, $location, myService) {
+    }
 
 
-      $scope.params = $routeParams;
-      $scope.$route = $route;
-      $scope.$location = $location;
-      $scope.$routeParams = $routeParams;
-      $scope.chanelList = myService.getChanelList();
-      $scope.currentParamCategory = ($scope.$routeParams.name) ? $scope.$routeParams.name : null;
-      $scope.category = {};
-      $scope.category.edit = false;
-      $scope.category.editChanel = false;
-      $scope.category.rootRouter = true;
+
+
+
+
+
+
+
+
+
+
+
+
+    $scope.clickCategory = function(ev, id) {
+
+    myService.setID(id)
+   
+      myService.setCurrentClickedElement(ev);
+
       $scope.category.name = myService.getCurrentClickedElement;
-      $scope.category.clickedChanel = "";
-      $scope.category.cachedChanel = "";
-      $scope.categories = myService.getCategories;
-      $scope.category.checkboxes = {};
-      myService.setChanelList();
-
-      $scope.chanelList = myService.getChanelList();
+      
+console.log(myService.getCurrentClickedElement.name);
 
 
-      $scope.novaKategorija = function(value) {
+      // find category in array
 
-        if (!value) {
+      var categoryItem = myService.getCategories.filter(function(val, ind) {
 
+console.log(myService.getCategories);
+
+        return val.name === myService.getCurrentClickedElement.name;
+
+      });
+
+
+
+
+      $scope.chanelList.length = 0;
+
+
+
+
+      categoryItem[0].kanali.forEach(function(val, index) {
+
+        $scope.chanelList.push(val);
+
+
+
+      })
+
+    }
+
+
+
+
+    $scope.sacuvaj = function(id) {
+
+
+      var current = $scope.category.name;
+      console.log(current)
+      console.log("current")
+      console.log($scope.category.id)
+
+    //  myService.setID(id)
+
+      myService.editCategory(myService.getID(), myService.getCurrentClickedElement);
+      
+
+
+
+      //posle zavrsi ovo
+
+      $scope.$location.url('/');
+
+    }
+
+
+
+
+$scope.editKategorije = function(name,id){
+  
+  
+ 
+ 
+  myService.setID(id)
+   
+      myService.setCurrentClickedElement(name);
+      myService.setCachedCurrentElement(name);
+
+      $scope.category.name = myService.getCurrentClickedElement;
+      
+console.log(myService.getCurrentClickedElement.name);
+
+
+      // find category in array
+
+      var categoryItem = myService.getCategories.filter(function(val, ind) {
+
+console.log(myService.getCategories);
+
+        return val.id === myService.getID();
+
+      });
+
+
+
+
+      $scope.chanelList.length = 0;
+
+
+
+
+      categoryItem[0].kanali.forEach(function(val, index) {
+
+        $scope.chanelList.push(val);
+
+
+
+      })
+
+ $scope.$location.url('/editKategorije');
+  
+}
+
+    $scope.otkaziEditKanala = function() {
+
+      $scope.$location.url('/');
+
+    }
+
+    $scope.deleteChanel = function(val) {
+
+      myService.deleteChanelFromCategory(val);
+
+
+
+
+    }
+
+    $scope.delete = function(item) {
+
+      myService.removeCategory(item);
+
+      var updateList = myService.getCategories;
+
+      $scope.chanelList.length = 0;
+
+
+
+
+
+      //Update chanel List
+
+      updateList[0].kanali.forEach(function(val, index) {
+
+        $scope.chanelList.push(val);
+
+
+      }, this);
+
+
+
+
+      $scope.category.name.name = (updateList[0].name) ? updateList[0].name : "None";
+      $scope.$location.url('/');
+
+    }
+
+
+
+    $scope.deleteChanelFromCategory = function(param) {
+
+
+
+
+      myService.deleteChanelFromCategory(param, $scope.category.name);
+
+      //update and re-render
+
+    }
+
+    $scope.sacuvajKanal = function(parametar) {
+
+      myService.categoriesOfChannel()
+
+      var url = $scope.$location.url();
+
+      if (url === "/noviKanal") {
+
+
+        if (!parametar) {
           return;
         }
-        myService.addCategory(value);
-        $scope.$location.url('/');
-
-
-
-
-      }
-      
-      
-      
-      
-      
-
-
-
-
-
-
-
-
-
-      $scope.clickCategory = function(ev) {
-
-
-
-        myService.setCurrentClickedElement(ev);
-
-        $scope.category.name = myService.getCurrentClickedElement;
-
-
-
-        // find category in array
-
-        var categoryItem = myService.getCategories.filter(function(val, ind) {
-
-
-          return val.name === myService.getCurrentClickedElement.name;
-
-        });
-
-
-
-
-
-        $scope.chanelList.length = 0;
-
-
-
-        categoryItem[0].kanali.forEach(function(val, index) {
-
-          $scope.chanelList.push(val);
-
-
-
-        })
-
- }
-
-
-      
-
-      $scope.sacuvaj = function(id) {
-
-
-        var current = $scope.category.name;
-
-        myService.editCategory(id, current);
-
-
-
-
-        //posle zavrsi ovo
-        $scope.category.edit = false;
-        $scope.category.editChanel = false;
-
-        $scope.$location.url('/');
 
       }
 
 
+      var clicked = myService.getCurrentClickedElement;
 
-      $scope.editKategorije = function(kanal, id) {
+      var clickedKanal = (parametar) ? parametar : $scope.category.clickedChanel;
 
-        $scope.category.current = kanal;
-        $scope.category.id = id;
+      var cached = myService.getCurrentClickedChannel();
 
-        myService.setCurrentClickedElement(kanal);
+      var checkBoxes = $scope.category.checkboxes;
 
-        myService.setChanelList($scope.category.id, $scope.category.current);
-       $scope.category.editChanel = false;
-        $scope.category.edit = true;
-
-
-      }
-
-      
-
-
-      $scope.otkaziEditKanala = function() {
-        $scope.category.edit = false;
-        $scope.category.editChanel = false;
-$scope.category.rootRouter =true;
-        $scope.$location.url('/');
-
-      }
-
-      $scope.deleteChanel = function(val) {
-
-        myService.deleteChanelFromCategory(val);
+      console.log(checkBoxes, cached, clickedKanal, clicked);
 
 
 
+      myService.updateKanal(clicked, cached, clickedKanal, checkBoxes);
 
-      }
 
-      $scope.delete = function(item) {
+      $scope.$location.url('/');
 
-        myService.removeCategory(item);
+    }
 
-        var updateList = myService.getCategories;
-
-        $scope.chanelList.length = 0;
+    $scope.redirect = function() {
 
 
 
-
-
-        //Update chanel List
-
-        updateList[0].kanali.forEach(function(val, index) {
-
-          $scope.chanelList.push(val);
-
-
-        }, this);
+      $scope.$location.url('/');
+    }
 
 
 
+    $scope.stateChanged = function() {
 
-        $scope.category.name.name = (updateList[0].name) ? updateList[0].name : "None";
-        $scope.$location.url('/');
-
-      }
-      
+    }
 
 
-      $scope.deleteChanelFromCategory = function(param) {
-      	
-      	
-      	myService.rootScopeBoolSet("ttt")
-      	
-        $scope.category.edit = false;
-              
-      $scope.category.rootRouter = true;
+    $scope.odustani = function() {
 
-      $scope.category.editChanel = false;
-
-        myService.deleteChanelFromCategory(param, $scope.category.name);
-
-        //update and re-render
-
-       
-
-      
-      
-   
-    
-    
-    
-      
-       
-      }
-
-      $scope.sacuvajKanal = function(parametar) {
+      $scope.$location.url('/')
 
 
-        var url = $scope.$location.url();
 
-        if (url === "/noviKanal") {
+    }
+    $scope.editKanala = function(ev) {
 
 
-          if (!parametar) {
-            return;
-          }
+      myService.setCurrentClickedChannel(ev);
+      console.log(myService.categoriesOfChannel(myService.getCurrentClickedChannel()))
+
+
+    }
+
+
+
+    $scope.clickedChanel = function(param) {
+
+      myService.setCurrentClickedChannel(param);
+
+
+      $scope.$location.url('/editKanala')
+
+    }
+
+    $scope.checkedAuto = function(d) {
+      var chann = $scope.category.cachedChanel;
+      var arr = myService.getCategories;
+      var vreca = [];
+
+
+      arr.forEach(function(element, index) {
+
+        var tat = element.kanali.indexOf(chann);
+
+        if (tat !== -1) {
+          vreca.push(element.name);
+
 
         }
 
 
-        var clicked = myService.getCurrentClickedElement;
 
-        var clickedKanal = (parametar) ? parametar : $scope.category.clickedChanel;
+      });
 
-        var cached = $scope.category.cachedChanel;
+      var tyy = vreca.indexOf(d);
 
-        var checkBoxes = $scope.category.checkboxes;
+      if (tyy !== -1) {
 
-        console.log(checkBoxes);
+        console.log(d);
+        return d;
 
-
-
-        myService.updateKanal(clicked, cached, clickedKanal, checkBoxes);
-
-   $scope.category.editChanel = false;
-        $scope.category.rootRouter = true;
-	      $scope.category.edit = false;
-
-     
-        $scope.$location.url('/');
-
-      }
-
-      $scope.redirect = function() {
-
-
-
-        $scope.$location.url('/');
+      } else {
+        return null;
       }
 
 
 
-      $scope.stateChanged = function() {
-
-      }
-
-
-      $scope.odustani = function() {
-      
-      	$scope.category.editChanel = false
-      	 
-      	 $scope.category.rootRouter = true
-      	  $scope.category.edit = false
-      }
-      $scope.editKanala = function(){
- 
-
-       $scope.category.editChanel = true;
-
-       $scope.category.edit = false;
-       $scope.category.rootRouter = false;
-
-
-      }
+    }
 
 
 
-$scope.clickedChanel = function(param) {
-        
-        
-        
-        if(myService.rootScopeBoolGet()){
-          $scope.category.cachedChanel = param;
-        $scope.category.clickedChanel = param;
-return;
-          
-        }else{
-        $scope.category.cachedChanel = param;
-        $scope.category.clickedChanel = param;
-        $scope.category.editChanel = true;
-
-       $scope.category.edit = false;
-       $scope.category.rootRouter = false;
-}
-      }
- 
-      $scope.checkedAuto = function(d) {
-        var chann = $scope.category.cachedChanel;
-        var arr = myService.getCategories;
-        var vreca = [];
-
-
-        arr.forEach(function(element, index) {
-
-          var tat = element.kanali.indexOf(chann);
-
-          if (tat !== -1) {
-            vreca.push(element.name);
-
-
-          }
-
-
-
-        });
-
-        var tyy = vreca.indexOf(d);
-
-        if (tyy !== -1) {
-          
-          console.log(d);
-          return d;
-          
-        }else{
-          return null;
-        }
-
-
-
-      }
-
-
-
-    })
+  })
 
 
 
@@ -600,21 +793,34 @@ return;
     $routeProvider.
 
     when('/', {
-      templateUrl: 'main.html',
-      controller: 'MainController'
+        templateUrl: 'main.html',
+        controller: 'MainController'
 
-    }).when('/novaKategorija', {
+      }).when('/novaKategorija', {
 
-      templateUrl: 'novaKategorija.html',
-      controller: 'MainController'
+        templateUrl: 'novaKategorija.html',
+        controller: 'MainController'
 
-    }).when('/noviKanal', {
-      templateUrl: 'noviKanal.html',
-      controller: 'MainController'
+      }).when('/noviKanal', {
+        templateUrl: 'noviKanal.html',
+        controller: 'MainController'
 
-    }).otherwise({
-      redirectTo: '/'
-    });
+      }).when('/editKanala', {
+        templateUrl: 'main.html',
+        controller: 'MainController'
+
+      }).when('/editKategorije', {
+        templateUrl: 'main.html',
+        controller: 'MainController'
+
+      })
+      .when('/pokaziKanale', {
+        templateUrl: 'main.html',
+        controller: 'MainController'
+
+      }).otherwise({
+        redirectTo: '/'
+      });
 
 
 
