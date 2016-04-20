@@ -4,6 +4,16 @@
   angular.module('myApp', ['ngRoute'])
 
 
+.directive('stopEvent', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            element.bind('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    };
+ })
 
 
   .factory('myService', function($rootScope) {
@@ -130,7 +140,6 @@ var id = array[0].id;
 
 
       console.log(this.getCurrentClickedElement.name)
-console.log("this.getCurrentClickedElement.name")
 
 
 
@@ -161,8 +170,6 @@ clickedCurrent = this.getCurrentClickedElement.name;
 
 
 
- console.log(clickedCurrent)
-console.log("this.kAAAAAAAAA")
 
 
 
@@ -174,8 +181,6 @@ console.log("this.kAAAAAAAAA")
 
       }, this);
 
-console.log("curentElementList")
-console.log(curentElementList)
 
 
 
@@ -213,17 +218,10 @@ console.log(curentElementList)
 
 
 
-console.log("efeferf")
-console.log(id)
-console.log("efeferf")
-
-
-
 
 
       for (var i = 0; i < array.length; i++) {
 
-console.log(array[i].name === id)
         if (array[i].id === this.getID()) {
 //this.getCurrentClickedElement.name
 //this.getCachedCurrentElement().name
@@ -262,8 +260,6 @@ this.setChanelList(1,23,3);
       // update
       this.setChanelList();
 
-
-
     }
 
 
@@ -276,10 +272,7 @@ this.setChanelList(1,23,3);
       var cachedCategoriesOfChannel = this.categoriesOfChannel(chanel);
 
 
-      console.log("cachedCategoriesOfChannel")
-      console.log(cachedCategoriesOfChannel)
-      console.log("cachedCategoriesOfChannel")
-      console.log(checkBoxes)
+    
 
       for (var t = 0; t < array.length; t++) {
 
@@ -427,14 +420,44 @@ this.setChanelList(1,23,3);
   })
 
 
+.controller('addCtrl', function($scope, $route, $routeParams, $location, myService){
+  
+  
+  
+    $scope.novaKategorija = function(value) {
+
+      if (!value) {
+
+        return;
+      }
+
+      myService.addCategory(value);
+      
+      $scope.$location.url('/');
 
 
 
-  .controller('MainController', function($scope, $route, $routeParams, $location, myService) {
+
+    }
+  
+  
+  
+   $scope.redirect = function() {
 
 
 
+      $scope.$location.url('/');
+    }
 
+  
+  
+  
+  
+  
+})
+.controller('addChannel', function($scope, $route, $routeParams, $location, myService){
+  
+  
     $scope.params = $routeParams;
     $scope.$route = $route;
     $scope.$location = $location;
@@ -449,7 +472,13 @@ this.setChanelList(1,23,3);
     $scope.categories = myService.getCategories;
     $scope.category.id = myService.getID()
 
-    var curr = myService.categoriesOfChannel($scope.category.clickedChanel) || [];
+      $scope.categories = myService.getCategories;
+      
+      
+      
+      $scope.category.newKanal = '';
+      
+          var curr = myService.categoriesOfChannel($scope.category.clickedChanel) || [];
 
     $scope.setCheckBoxVal = function() {
 
@@ -466,9 +495,123 @@ this.setChanelList(1,23,3);
       return objt;
 
     }
-  myService.setChanelList();
+      
+      
+        myService.setChanelList();
     $scope.chanelList = myService.getChanelList();
 
+
+      
+      
+      
+       $scope.sacuvajKanal = function(parametar) {
+
+      myService.categoriesOfChannel()
+
+      var url = $scope.$location.url();
+
+      if (url === "/noviKanal") {
+
+
+        if (!parametar) {
+          return;
+        }
+
+      }
+
+
+      var clicked = myService.getCurrentClickedElement;
+
+      var clickedKanal = (parametar) ? parametar : $scope.category.clickedChanel;
+
+      var cached = myService.getCurrentClickedChannel();
+
+      var checkBoxes = $scope.category.checkboxes;
+
+      //console.log(checkBoxes, cached, clickedKanal, clicked);
+
+
+
+      myService.updateKanal(clicked, cached, clickedKanal, checkBoxes);
+
+
+      $scope.$location.url('/');
+
+    }
+
+    $scope.redirect = function() {
+
+
+
+      $scope.$location.url('/');
+    }
+
+
+  
+  
+  
+})
+
+
+  .controller('MainController', function($scope, $route, $routeParams, $location, myService) {
+
+
+
+
+    $scope.params = $routeParams;
+    $scope.$route = $route;
+    $scope.$location = $location;
+    $scope.$routeParams = $routeParams;
+    $scope.chanelList = myService.getChanelList();
+    $scope.currentParamCategory = ($scope.$routeParams.name) ? $scope.$routeParams.name : null;
+    $scope.category = {};
+    
+    $scope.category.name = myService.getCachedCurrentElement();
+    
+    
+    $scope.category.clickedChanel = myService.getCurrentClickedChannel();
+    $scope.category.cachedChanel = "";
+    $scope.categories = myService.getCategories;
+    $scope.category.id = myService.getID()
+
+    var curr = myService.categoriesOfChannel($scope.category.clickedChanel) || [];
+
+
+
+
+
+
+
+
+
+    $scope.setCheckBoxVal = function() {
+
+      var objt = {};
+      var currToObj = curr.forEach(function(val) {
+
+        objt[val] = true;
+
+      });
+
+
+      $scope.category.checkboxes = objt;
+
+      return objt;
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  myService.setChanelList();
+    $scope.chanelList = myService.getChanelList();
 
 
 
@@ -491,17 +634,6 @@ this.setChanelList(1,23,3);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     $scope.clickCategory = function(ev, id) {
 
     myService.setID(id)
@@ -510,7 +642,9 @@ this.setChanelList(1,23,3);
 
       $scope.category.name = myService.getCurrentClickedElement;
       
-console.log(myService.getCurrentClickedElement.name);
+
+
+
 
 
       // find category in array
@@ -548,9 +682,7 @@ console.log(myService.getCategories);
 
 
       var current = $scope.category.name;
-      console.log(current)
-      console.log("current")
-      console.log($scope.category.id)
+  
 
     //  myService.setID(id)
 
@@ -621,6 +753,8 @@ console.log(myService.getCategories);
 
     $scope.deleteChanel = function(val) {
 
+
+
       myService.deleteChanelFromCategory(val);
 
 
@@ -652,6 +786,7 @@ console.log(myService.getCategories);
 
 
 
+
       $scope.category.name.name = (updateList[0].name) ? updateList[0].name : "None";
       $scope.$location.url('/');
 
@@ -659,14 +794,31 @@ console.log(myService.getCategories);
 
 
 
+
     $scope.deleteChanelFromCategory = function(param) {
+var flag;
 
 
 
+ if(Object.keys($scope.category.name).length === 0){
+  
+  flag = myService.getCategories[0];
 
-      myService.deleteChanelFromCategory(param, $scope.category.name);
+
+}else{
+  
+  flag = $scope.category.name;
+  
+}
+
+
+      myService.deleteChanelFromCategory(param, flag);
 
       //update and re-render
+
+
+
+
 
     }
 
@@ -694,7 +846,7 @@ console.log(myService.getCategories);
 
       var checkBoxes = $scope.category.checkboxes;
 
-      console.log(checkBoxes, cached, clickedKanal, clicked);
+   //   console.log(checkBoxes, cached, clickedKanal, clicked);
 
 
 
@@ -739,6 +891,8 @@ console.log(myService.getCategories);
 
     $scope.clickedChanel = function(param) {
 
+
+
       myService.setCurrentClickedChannel(param);
 
 
@@ -770,7 +924,7 @@ console.log(myService.getCategories);
 
       if (tyy !== -1) {
 
-        console.log(d);
+
         return d;
 
       } else {
@@ -784,6 +938,7 @@ console.log(myService.getCategories);
 
 
   })
+
 
 
 
@@ -803,7 +958,7 @@ console.log(myService.getCategories);
 
       }).when('/noviKanal', {
         templateUrl: 'noviKanal.html',
-        controller: 'MainController'
+        controller: 'addChannel'
 
       }).when('/editKanala', {
         templateUrl: 'main.html',
@@ -811,7 +966,7 @@ console.log(myService.getCategories);
 
       }).when('/editKategorije', {
         templateUrl: 'main.html',
-        controller: 'MainController'
+        controller: 'addCtrl'
 
       })
       .when('/pokaziKanale', {
